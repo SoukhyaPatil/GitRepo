@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint><Rule language="beanshell" name="CorrelationRule" type="Correlation">
+  <Description>Identity Correlation Rules are used to find identities to which new accounts
+        can be attached.
+
+        A correlation rule must return a Map with one of the specified Return
+        arguments.</Description>
+<Signature returnType="Map">
+<Inputs>
+<Argument type="environment">
+<Description>
+Arguments passed to the aggregation task.
+</Description>
+</Argument><Argument type="application">
+<Description>
+Application being aggregated.
+</Description>
+</Argument><Argument type="account">
+<Description>
+A sailpoint.object.ResourceObject returned from the
+              collector.
+</Description>
+</Argument><Argument type="link">
+<Description>
+Existing link to this account.
+</Description>
+</Argument></Inputs>
+<Returns>
+<Argument type="identityName">
+<Description>
+The name of an Identity object.
+</Description>
+</Argument><Argument type="identity">
+<Description>
+A fully resolved Identity object if the rule wants
+              to do its own queries to locate the identity.
+</Description>
+</Argument><Argument type="identityAttributeName">
+<Description>
+The name of the extended attribute that can be used
+              to locate an existing identity.
+</Description>
+</Argument><Argument type="identityAttributeValue">
+<Description>
+The value of the named extended attribute that can be used
+              to locate an existing identity. This attribute is used
+              together with the identityAttributeName argument.
+</Description>
+</Argument></Returns>
+</Signature>
+<!--ReferencedRules>
+  <Reference class="sailpoint.object.Rule" name=""/>
+</ReferencedRules-->
+  <Source><![CDATA[
+/*******
+ *                                                                                         *
+ * Generated: Thu Apr 23 12:12:38 IST 2020                                                 *
+ * Rule: Correlation Template                                                              *
+ * Description: Correlation Template                                                       *
+ * Inputs:                                                                                 *
+ *     environment - Arguments passed to the aggregation task.                             *
+ *     application - Application being aggregated.                                         *
+ *     account - A sailpoint.object.ResourceObject returned from the                       *
+ *               collector.                                                                *
+ *     link - Existing link to this account.                                               *
+ * Returns:                                                                                *
+ *     identityName - The name of an Identity object.                                      *
+ *     identity - A fully resolved Identity object if the rule wants                       *
+ *               to do its own queries to locate the identity.                             *
+ *     identityAttributeName - The name of the extended attribute that can be used         *
+ *               to locate an existing identity.                                           *
+ *     identityAttributeValue - The value of the named extended attribute that can be used *
+ *               to locate an existing identity. This attribute is used                    *
+ *               together with the identityAttributeName argument.                         *
+ ******/
+serilog=org.apache.commons.logging.LogFactory.getLog("SERI.Rule.correlationTemplate");
+serilog.debug("----Correlation Rule Start----");
+Map returnMap = new HashMap();
+String username1 = account.getStringAttribute("username");
+if ( ( username1 != null )) {
+int i=0;
+	String characters = username1;
+	String w="";
+
+	char character = characters.charAt(i);
+	
+
+	if(Character.isLetter(character))
+	{
+	characters=characters.substring(1);
+	w="0"+characters;
+	//System.out.println(w);
+	}
+	
+String name= w;
+returnMap.put("identityName", name);
+}
+return returnMap;
+]]></Source>
+</Rule>
+</sailpoint>
